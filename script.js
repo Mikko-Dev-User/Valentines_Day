@@ -128,4 +128,70 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.head.appendChild(styleSheet);
     }
+
+    // Envelope and Modal Logic
+    const envelopeBtn = document.getElementById('envelopeBtn');
+    const messageModal = document.getElementById('messageModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const countdownOverlay = document.getElementById('countdownOverlay');
+    const countdownTimer = document.getElementById('countdownTimer');
+
+    if (envelopeBtn) {
+        envelopeBtn.addEventListener('click', () => {
+            messageModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+            startCountdown();
+        });
+    }
+
+    function startCountdown() {
+        countdownOverlay.classList.remove('hidden');
+        let timeLeft = 10;
+        countdownTimer.innerText = timeLeft;
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            countdownTimer.innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                triggerExplosion();
+            }
+        }, 1000);
+    }
+
+    function triggerExplosion() {
+        const body = document.body;
+
+        // Phase 1: Shake
+        body.classList.add('shake-hard');
+
+        // Phase 2: Fade out / Glitch after 2 seconds
+        setTimeout(() => {
+            document.querySelectorAll('*').forEach(el => {
+                if (el !== body) {
+                    el.classList.add('explode-fade');
+                }
+            });
+        }, 2000);
+
+        // Phase 3: Final boom / wipe
+        setTimeout(() => {
+            body.innerHTML = '';
+            body.style.backgroundColor = 'black';
+            body.style.display = 'flex';
+            body.style.justifyContent = 'center';
+            body.style.alignItems = 'center';
+
+            const boom = document.createElement('h1');
+            boom.innerText = '💥';
+            boom.style.fontSize = '10rem';
+            body.appendChild(boom);
+        }, 4000);
+    }
 });

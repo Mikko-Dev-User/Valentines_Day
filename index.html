@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>Hello-Di-Ako-Virus</title>
     <link rel="stylesheet" href="style.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap"
@@ -31,10 +31,35 @@
             <h1>Yay! I knew you'd say yes! 🐵</h1>
             <p>Can't wait to see you! Exciting</p>
             <img src="https://media.tenor.com/ger0WV_a2WMAAAAi/happy-cat.gif" alt="Happy Cat" class="success-gif">
+
+            <div class="envelope-container">
+                <button id="envelopeBtn" class="envelope-btn">
+                    📩 Open Me!
+                </button>
+            </div>
+        </div>
+
+        <!-- Message Modal -->
+        <div id="messageModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>A Special Message for You 📩</h2>
+                <p>Hello Joyze Ann Duldulao Javier. Alam kong di ka napilitang mag yes HAHAHA. I want to invite you on
+                    Feb 17. dahil ito ang day na ni reveal sakin ni Lord Gusto ko nga sana ibang araw pero God Reveal
+                    this date to me See you!</p>
+                <p>P.S. Prepare for a surprise...Sana HAHAHA</p>
+                <button id="closeModalBtn" class="btn close-btn">Close</button>
+            </div>
+        </div>
+
+        <!-- Countdown Overlay -->
+        <div id="countdownOverlay" class="countdown-overlay hidden">
+            <div class="countdown-content">
+                <h1>Self-Destruct in:</h1>
+                <div id="countdownTimer">10</div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
 </body>
-
 
 </html>
