@@ -253,7 +253,7 @@ function onPlayerReady(event) {
         // Ensure player is ready and we can unmute
         if (player && typeof player.unMute === 'function') {
             player.unMute();
-            player.setVolume(50);
+            player.setVolume(75);
             player.playVideo();
         }
 
@@ -279,3 +279,4 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
