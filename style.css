@@ -268,9 +268,22 @@ body {
 }
 
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-10px);}
-    60% {transform: translateY(-5px);}
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
 }
 
 /* Modal Styles */
@@ -302,8 +315,15 @@ body {
 }
 
 @keyframes modalPop {
-    from {transform: scale(0.5); opacity: 0;}
-    to {transform: scale(1); opacity: 1;}
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .modal-content h2 {
@@ -363,24 +383,49 @@ body {
 }
 
 @keyframes pulse {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.1);}
-    100% {transform: scale(1);}
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Explosion Effects */
 .shake-hard {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite;
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
 }
 
 @keyframes shake {
-    10%, 90% {transform: translate3d(-5px, 0, 0);}
-    20%, 80% {transform: translate3d(5px, 0, 0);}
-    30%, 50%, 70% {transform: translate3d(-10px, 0, 0);}
-    40%, 60% {transform: translate3d(10px, 0, 0);}
+
+    10%,
+    90% {
+        transform: translate3d(-5px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(5px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-10px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(10px, 0, 0);
+    }
 }
 
 .explode-fade {
@@ -388,4 +433,91 @@ body {
     transform: scale(1.5);
     opacity: 0;
     filter: blur(10px);
+}
+
+/* Sunflower Surprise */
+.flower-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 9999;
+    pointer-events: none;
+    background-color: #e0f7fa;
+    /* Moved bg color here */
+    display: flex;
+    /* Ensure content can be centered/placed */
+    justify-content: center;
+    align-items: center;
+}
+
+.sunflower {
+    position: absolute;
+    /* Base size/position handled in JS */
+    animation: bloom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    z-index: 10;
+}
+
+.sunflower-inner {
+    display: block;
+    animation: sway 3s ease-in-out infinite alternate;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.flower-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Dancing Script', cursive;
+    color: #ff4d6d;
+    /* Or a nice deep yellow/brown if preferred, but keeping theme */
+    font-size: 5rem;
+    text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    z-index: 20;
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1s forwards;
+}
+
+@keyframes bloom {
+    0% {
+        transform: scale(0) rotate(-15deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+        /* Force opacity to 1 early */
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes sway {
+    0% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -30%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }

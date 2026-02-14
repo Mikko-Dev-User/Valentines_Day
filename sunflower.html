@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowers For You 🌻</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            /* Valentine's Theme Gradient */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            color: #d90429;
+            /* Deep Red Text */
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .flower-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .flower-caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+            z-index: 2000;
+            text-align: center;
+            width: 100%;
+            opacity: 0;
+            animation: fadeInUp 2s ease 0.5s forwards;
+            pointer-events: none;
+        }
+
+        .center-flower-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1500;
+            /* Behind text (2000) but above floating flowers (1000) */
+            pointer-events: none;
+        }
+
+        .center-sunflower {
+            max-width: 400px;
+            width: 80vw;
+            height: auto;
+            animation: pulse-flower 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(255, 223, 0, 0.4));
+        }
+
+        @keyframes pulse-flower {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -30%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* SVG Styles */
+        .floating-item {
+            position: absolute;
+            bottom: -150px;
+            /* Start below screen */
+            width: 100px;
+            /* Base width, will be randomized */
+            height: auto;
+            will-change: transform;
+        }
+
+        .petal {
+            fill: #FFD700;
+            stroke: #FFA500;
+            stroke-width: 1px;
+        }
+
+        .center {
+            fill: #8B4513;
+            stroke: #5D2906;
+            stroke-width: 1px;
+        }
+
+        .heart {
+            fill: #ff4d6d;
+            stroke: #d90429;
+            stroke-width: 1px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Float Animation */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flower-container" id="flowerContainer">
+        <!-- Central Sunflower Image -->
+        <div class="center-flower-container">
+            <img src="sunflowe.png" alt="Giant Sunflower" class="center-sunflower">
+        </div>
+
+        <h1 class="flower-caption">Flowers for you 😉</h1>
+    </div>
+
+    <script>
+        const container = document.getElementById('flowerContainer');
+
+        // Sunflower SVG Template
+        const createSunflowerSVG = () => {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", "0 0 100 100");
+            svg.classList.add("floating-item");
+
+            const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+            // Create Petals (12 petals)
+            for (let i = 0; i < 12; i++) {
+                const petal = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+                petal.setAttribute("cx", "50");
+                petal.setAttribute("cy", "20");
+                petal.setAttribute("rx", "6");
+                petal.setAttribute("ry", "20");
+                petal.setAttribute("transform", `rotate(${i * 30} 50 50)`);
+                petal.classList.add("petal");
+                g.appendChild(petal);
+            }
+
+            // Center
+            const center = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            center.setAttribute("cx", "50");
+            center.setAttribute("cy", "50");
+            center.setAttribute("r", "15");
+            center.classList.add("center");
+            g.appendChild(center);
+
+            svg.appendChild(g);
+            return svg;
+        };
+
+        // Heart SVG Template
+        const createHeartSVG = () => {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", "0 0 100 100");
+            svg.classList.add("floating-item");
+
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            // Standard SVG Heart Path
+            path.setAttribute("d", "M50,88.9C25.5,74.7,5.5,57.5,5.5,36.5c0-14.8,11.2-26,26-26c8.5,0,16.5,4.7,21,11.9c4.5-7.2,12.5-11.9,21-11.9c14.8,0,26,11.2,26,26C94.5,57.5,74.5,74.7,50,88.9z");
+            path.classList.add("heart");
+
+            svg.appendChild(path);
+            return svg;
+        };
+
+        const spawnItem = () => {
+            // Randomly choose between sunflower and heart
+            const isHeart = Math.random() > 0.5;
+            const item = isHeart ? createHeartSVG() : createSunflowerSVG();
+
+            // Randomize Properties
+            const size = 50 + Math.random() * 80; // 50px to 130px
+            const left = Math.random() * 100; // 0% to 100%
+            const duration = 6 + Math.random() * 12; // Slower, romantic float
+            const delay = Math.random() * 2; // Start delay
+
+            item.style.width = `${size}px`;
+            item.style.left = `${left}%`;
+            // Add a slight randomization to rotation direction via negative scaling if desired, but rotation is fine
+            item.style.animation = `floatUp ${duration}s linear ${delay}s forwards`;
+
+            // Append to container
+            container.appendChild(item);
+
+            // Remove after animation completes
+            setTimeout(() => {
+                item.remove();
+            }, (duration + delay) * 1000 + 100);
+        };
+
+        // Initial burst
+        for (let i = 0; i < 25; i++) {
+            spawnItem();
+        }
+
+        // Continuous spawning
+        setInterval(spawnItem, 250); // Frequent updates for rich background
+
+    </script>
+</body>
+
+</html>

@@ -182,16 +182,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Phase 3: Final boom / wipe
         setTimeout(() => {
-            body.innerHTML = '';
-            body.style.backgroundColor = 'black';
-            body.style.display = 'flex';
-            body.style.justifyContent = 'center';
-            body.style.alignItems = 'center';
+            // Remove shake effect
+            body.classList.remove('shake-hard');
+
+            // Create Boom Overlay instead of clearing body
+            const boomOverlay = document.createElement('div');
+            boomOverlay.id = 'boomOverlay';
+            boomOverlay.style.position = 'fixed';
+            boomOverlay.style.top = '0';
+            boomOverlay.style.left = '0';
+            boomOverlay.style.width = '100%';
+            boomOverlay.style.height = '100%';
+            boomOverlay.style.backgroundColor = 'black';
+            boomOverlay.style.zIndex = '9998';
+            boomOverlay.style.display = 'flex';
+            boomOverlay.style.justifyContent = 'center';
+            boomOverlay.style.alignItems = 'center';
 
             const boom = document.createElement('h1');
             boom.innerText = '💥';
             boom.style.fontSize = '10rem';
-            body.appendChild(boom);
+            boom.className = 'explode-fade';
+
+            boomOverlay.appendChild(boom);
+            body.appendChild(boomOverlay);
+
+            // Phase 4: Flowers (Redirect)
+            setTimeout(() => {
+                window.location.href = 'sunflower.html';
+            }, 2000);
+
         }, 4000);
     }
 });
+
+// Background Music - YouTube API
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: 'aHbzhVOUMDg',
+        playerVars: {
+            'autoplay': 1,
+            'controls': 0,
+            'loop': 1,
+            'playlist': 'aHbzhVOUMDg', // Required for loop to work
+            'showinfo': 0,
+            'modestbranding': 1
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    event.target.setVolume(50); // Set volume to 50%
+    event.target.playVideo();
+
+    // Handle autoplay policies: Try to unmute/play on first interaction
+    const unlockAudio = () => {
+        player.unMute();
+        player.playVideo();
+        document.body.removeEventListener('click', unlockAudio);
+        document.body.removeEventListener('touchstart', unlockAudio);
+        document.body.removeEventListener('keydown', unlockAudio);
+    };
+
+    document.body.addEventListener('click', unlockAudio);
+    document.body.addEventListener('touchstart', unlockAudio);
+    document.body.addEventListener('keydown', unlockAudio);
+}
+
+// Load YouTube IFrame Player API code asynchronously
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
