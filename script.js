@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Background Music - YouTube API
+
 var player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtube-player', {
@@ -236,29 +237,41 @@ function onYouTubeIframeAPIReady() {
             'modestbranding': 1
         },
         events: {
-            'onReady': onPlayerReady
+            'onReady': onPlayerReady,
+            'onError': onPlayerError
         }
     });
 }
 
 function onPlayerReady(event) {
-    event.target.mute();          // Start muted (important!)
-    event.target.playVideo();     // Autoplay will now work
-    event.target.setVolume(50);   // Set volume for later
-}
+    // Attempt to play muted immediately (best chance for autoplay)
+    event.target.mute();
+    event.target.playVideo();
 
-    // Handle autoplay policies: Try to unmute/play on first interaction
+    // Handle autoplay policies: Unmute/play on first interaction
     const unlockAudio = () => {
-        player.unMute();
-        player.playVideo();
+        // Ensure player is ready and we can unmute
+        if (player && typeof player.unMute === 'function') {
+            player.unMute();
+            player.setVolume(50);
+            player.playVideo();
+        }
+
+        // Remove listeners once audio is unlocked
         document.body.removeEventListener('click', unlockAudio);
         document.body.removeEventListener('touchstart', unlockAudio);
         document.body.removeEventListener('keydown', unlockAudio);
+        document.body.removeEventListener('mousemove', unlockAudio);
     };
 
     document.body.addEventListener('click', unlockAudio);
     document.body.addEventListener('touchstart', unlockAudio);
     document.body.addEventListener('keydown', unlockAudio);
+    document.body.addEventListener('mousemove', unlockAudio);
+}
+
+function onPlayerError(event) {
+    console.error("YouTube Player Error:", event.data);
 }
 
 // Load YouTube IFrame Player API code asynchronously
@@ -266,4 +279,3 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
