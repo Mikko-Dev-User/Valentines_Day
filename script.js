@@ -242,8 +242,10 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    event.target.setVolume(50); // Set volume to 50%
-    event.target.playVideo();
+    event.target.mute();          // Start muted (important!)
+    event.target.playVideo();     // Autoplay will now work
+    event.target.setVolume(50);   // Set volume for later
+}
 
     // Handle autoplay policies: Try to unmute/play on first interaction
     const unlockAudio = () => {
@@ -264,3 +266,4 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
