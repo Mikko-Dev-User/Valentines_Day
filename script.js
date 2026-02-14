@@ -72,7 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle Yes button click
     yesBtn.addEventListener('click', () => {
-        // Confetti effect could go here
+        // Switch music to "Sining"
+        if (player && typeof player.loadVideoById === 'function') {
+            player.loadVideoById('Jf-mzP3QhSI');
+            player.setVolume(100); // Pump up the volume!
+        }
 
         // Hide proposal card
         proposalCard.classList.add('hidden');
@@ -222,12 +226,12 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: 'Jf-mzP3QhSI',
+        videoId: 'aHbzhVOUMDg',
         playerVars: {
             'autoplay': 1,
             'controls': 0,
             'loop': 1,
-            'playlist': 'Jf-mzP3QhSI', // Required for loop to work
+            'playlist': 'aHbzhVOUMDg', // Required for loop to work
             'showinfo': 0,
             'modestbranding': 1
         },
